@@ -4,9 +4,9 @@ using System;
 
 public class SimonManager : MonoBehaviour {
 
-    public string stringSolution = "1;2;3;4;5|1;2;3";
+    public string stringSolution = "1;2;3;4;5|3;2;1";
     public int hoverDuration = 1;
-    public Camera camera;
+    public Camera mainCamera;
 
     private enum ButtonState {
         UNSELECTED,
@@ -108,7 +108,7 @@ public class SimonManager : MonoBehaviour {
     void ManagePlayerInteractions()
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
             Transform objectHit = hit.transform;
