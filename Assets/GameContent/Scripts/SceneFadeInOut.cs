@@ -4,57 +4,55 @@ using UnityEngine.SceneManagement;
 
 public class SceneFadeInOut : MonoBehaviour
 {
-    public float fadeSpeed = 1.5f;          // Speed that the screen fades to and from black.
+    public float fadeSpeed = 1.5f;
     public Camera mainCamera;
     public string nextSceneName;
 
-    private bool sceneStarting = true;      // Whether or not the scene is still fading in.
+    private bool sceneStarting = true;
     private GUITexture screenTexture;
+    private bool goToNextLevel = false;
 
     void Awake()
     {
         screenTexture = GetComponent<GUITexture>();
-        // Set the texture so that it is the the size of the screen and covers it.
         screenTexture.pixelInset = new Rect(0f, 0f, Screen.width, Screen.height);
     }
 
 
     void Update()
     {
-        // If the scene is starting...
         if (sceneStarting)
-            // ... call the StartScene function.
             StartScene();
+
+        // TODO : debug à retirer
+        if (Input.GetMouseButtonDown(0))
+            goToNextLevel = true;
+        if (goToNextLevel)
+            EndScene();
+        // ----------------------
     }
 
 
     void FadeToClear()
     {
-        // Lerp the colour of the texture between itself and transparent.
         screenTexture.color = Color.Lerp(screenTexture.color, Color.clear, fadeSpeed * Time.deltaTime);
     }
 
 
-    void FadeToBlack()
+    void FadeToWhite()
     {
-        // Lerp the colour of the texture between itself and black.
-        screenTexture.color = Color.Lerp(screenTexture.color, Color.black, fadeSpeed * Time.deltaTime);
+        screenTexture.color = Color.Lerp(screenTexture.color, Color.white, fadeSpeed * Time.deltaTime);
     }
 
 
     void StartScene()
     {
-        // Fade the texture to clear.
         FadeToClear();
 
-        // If the texture is almost clear...
         if (screenTexture.color.a <= 0.05f)
         {
-            // ... set the colour to clear and disable the GUITexture.
             screenTexture.color = Color.clear;
             screenTexture.enabled = false;
-
-            // The scene is no longer starting.
             sceneStarting = false;
         }
     }
@@ -62,15 +60,10 @@ public class SceneFadeInOut : MonoBehaviour
 
     public void EndScene()
     {
-        // Make sure the texture is enabled.
         screenTexture.enabled = true;
+        FadeToWhite();
 
-        // Start fading towards black.
-        FadeToBlack();
-
-        // If the screen is almost black...
         if (screenTexture.color.a >= 0.95f)
-            // ... reload the level.
             SceneManager.LoadScene(nextSceneName);
     }
 }
