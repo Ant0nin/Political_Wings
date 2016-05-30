@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 public class SimonManager : MonoBehaviour {
 
     public string stringSolution = "1;2;3;4;5|3;2;1";
     public int hoverDuration = 1;
     public Camera mainCamera;
+    public float demoSpeed = 0.5f;
 
     private enum ButtonState {
         UNSELECTED,
@@ -19,10 +21,12 @@ public class SimonManager : MonoBehaviour {
         public ButtonState state = ButtonState.UNSELECTED;
         public int timerHover = 0;
         public GameObject gameObj;
+        public AudioSource audioSound;
 
         public SimonButton(GameObject gameObj)
         {
             this.gameObj = gameObj;
+            audioSound = gameObj.GetComponent<AudioSource>();
         }
     }
 
@@ -31,6 +35,7 @@ public class SimonManager : MonoBehaviour {
     private List<int> playerSelection = new List<int>();
     private SimonButton[] buttons;
     private int currentSequence = 0;
+    private bool blockInteraction = true;
 
 	void Start () {
 
@@ -47,6 +52,7 @@ public class SimonManager : MonoBehaviour {
             buttons[i] = new SimonButton(transform.GetChild(i).gameObject);
         }
         ResetButtons();
+        SequenceDemo();
     }
 
     void InitSequences()
@@ -66,7 +72,8 @@ public class SimonManager : MonoBehaviour {
 	void Update ()
     {
         ManageHoverButtons();
-        ManagePlayerInteractions();
+        if(!blockInteraction)
+            ManagePlayerInteractions();
         RefreshButtonsMaterials();
     }
 
@@ -79,13 +86,41 @@ public class SimonManager : MonoBehaviour {
             {
                 if (playerSelection[i] != listSequences[currentSequence][i])
                 {
-                    ResetButtons();
+                    SequenceDemo();
                     return false;
                 }
             }
             return true;
         }
         return false;
+    }
+
+    void SequenceDemo()
+    {
+        blockInteraction = true;
+        ResetButtons();
+        StartCoroutine(playButton(0));
+    }
+
+    IEnumerator playButton(int indexInSeq)
+    {
+        yield return new WaitForSeconds(demoSpeed);
+
+        int[] sequenceToPlay = listSequences[currentSequence];
+        if (indexInSeq == (sequenceToPlay.Length)) {
+            ResetButtons();
+            blockInteraction = false;
+        }
+        else
+        {
+            int buttonId = sequenceToPlay[indexInSeq] - 1;
+            SimonButton btn = buttons[buttonId];
+
+            btn.state = ButtonState.SELECTED;
+            btn.audioSound.Play();
+
+            StartCoroutine(playButton(++indexInSeq));
+        }
     }
 
     void ResetButtons()
@@ -123,6 +158,7 @@ public class SimonManager : MonoBehaviour {
                 {
                     if (Input.GetMouseButtonDown(0)) { // on click
                         targetButton.state = ButtonState.SELECTED;
+                        targetButton.audioSound.Play();
                         playerSelection.Add(buttonIndex);
                         bool hasWin = CheckWin();
                         if(hasWin)
@@ -131,7 +167,7 @@ public class SimonManager : MonoBehaviour {
                             if (currentSequence >= listSequences.Count)
                                 EndGame();
                             else
-                                ResetButtons();
+                                SequenceDemo();
                         }
                     }
                     else { // on hover
