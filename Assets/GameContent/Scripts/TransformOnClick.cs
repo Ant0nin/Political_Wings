@@ -7,7 +7,6 @@ public class TransformOnClick : MonoBehaviour
     public GameObject nextLocation;
     public float speed = 0.3F;
 
-    private float startTime;
     private bool trigger = false;
 
     private Vector3 startLocationPos;
@@ -18,7 +17,6 @@ public class TransformOnClick : MonoBehaviour
         startLocationPos = transform.position;
         startLocationRotate = transform.rotation;
         endLocation = nextLocation.transform;
-        startTime = Time.time;
     }
 
     void OnMouseOver() {
