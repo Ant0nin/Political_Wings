@@ -17,7 +17,6 @@ public class LaserPuzzleManager : MonoBehaviour {
         public NodeType type;
         public LaserRay[] laserRays;
         public GameObject gameObj;
-        public LaserNode pointedNode = null;
 
         public LaserNode(NodeType type, GameObject gameObj, LaserRay[] lasersRays, bool activated)
         {
@@ -32,16 +31,27 @@ public class LaserPuzzleManager : MonoBehaviour {
         public ParticleSystem particules;
         public Vector3 dir;
         public Vector3 pos;
+        public Transform parentNodeTransform;
+        public LaserNode pointedNode = null;
 
-        public LaserRay(Vector3 pos, Quaternion rotation, Vector3 dir, ParticleSystem originalParticules)
+        public LaserRay(Transform nodeTransform, Transform laserTransform, ParticleSystem originalParticules)
         {
+            parentNodeTransform = nodeTransform;
             particules = Instantiate(originalParticules); // clone
-            particules.transform.position = pos;
-            particules.transform.rotation = rotation;
-            this.dir = dir;
-            this.pos = pos + dir * 0.51f;
-        }
 
+            Quaternion laserRotation = laserTransform.rotation;
+            Vector3 laserDir = laserTransform.position - nodeTransform.position;
+            this.dir = laserDir;
+
+            particules.transform.rotation = laserRotation;
+            UpdatePosition();
+        }
+       
+        public void UpdatePosition()
+        {
+            this.pos = parentNodeTransform.position + dir * 0.51f;
+            particules.transform.position = this.pos;
+        }
     }
     
     private bool win = false;
@@ -87,10 +97,8 @@ public class LaserPuzzleManager : MonoBehaviour {
             LaserRay[] rays = new LaserRay[nbLasers];
             for(int j=0; j< nbLasers; j++)
             {
-                Transform laserTransform = target.GetChild(j);
-                Quaternion laserRotation = laserTransform.rotation;
-                Vector3 laserDir = laserTransform.position - target.position;
-                LaserRay ray = new LaserRay(target.position, laserRotation, laserDir, laserParticules);
+                Transform laserTransform = target.transform.GetChild(j);
+                LaserRay ray = new LaserRay(target.transform, laserTransform, laserParticules);
                 rays[j] = ray;
             }
 
@@ -117,7 +125,7 @@ public class LaserPuzzleManager : MonoBehaviour {
 
     void RefreshNodesStates()
     {
-        foreach(LaserNode node in nodes)
+        foreach (LaserNode node in nodes)
         {
             if(node.activated)
             {
@@ -136,7 +144,7 @@ public class LaserPuzzleManager : MonoBehaviour {
                                 {
                                     // TODO : update distance
                                     n.activated = true;
-                                    node.pointedNode = n;
+                                    ray.pointedNode = n;
                                     break; // pb ici ?
                                 }
                             }
@@ -144,24 +152,37 @@ public class LaserPuzzleManager : MonoBehaviour {
                         else
                         {
                             // TODO : update distance
-                            if (node.pointedNode != null)
-                            {
-                                node.pointedNode.activated = false;
-                                node.pointedNode = null;
-                            }
+                            DisableTargetedNodes(node);
                         }
                     }
                     else
                     {
                         // TODO : update distance
-                        if (node.pointedNode!=null)
-                        {
-                            node.pointedNode.activated = false;
-                            node.pointedNode = null;
-                        }
+                        DisableTargetedNodes(node);
                     }
                         
                 }
+            }
+            else
+            {
+                DisableTargetedNodes(node);
+            }
+        }
+    }
+
+    void DisableTargetedNodes(LaserNode sourceNode)
+    {
+        foreach (LaserRay ray in sourceNode.laserRays)
+        {
+            LaserNode pointedNode = ray.pointedNode;
+            if (pointedNode != null)
+            {
+                if(pointedNode.activated && pointedNode.type != NodeType.START)
+                {
+                    DisableTargetedNodes(pointedNode);
+                    pointedNode.activated = false;
+                }
+                pointedNode = null;
             }
         }
     }
@@ -176,6 +197,7 @@ public class LaserPuzzleManager : MonoBehaviour {
                 nodeMaterial.color = new Color(0f, 1f, 0f);
                 foreach(LaserRay ray in node.laserRays)
                 {
+                    ray.UpdatePosition();
                     ParticleSystem particules = ray.particules;
                     if(particules.isStopped)
                         particules.Play();
@@ -186,6 +208,7 @@ public class LaserPuzzleManager : MonoBehaviour {
                 nodeMaterial.color = new Color(1f, 0f, 0f);
                 foreach (LaserRay ray in node.laserRays)
                 {
+                    ray.UpdatePosition();
                     ParticleSystem particules = ray.particules;
                     if(particules.isPlaying)
                         particules.Stop();
