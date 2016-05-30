@@ -5,6 +5,8 @@ using System;
 public class LaserPuzzleManager : MonoBehaviour {
 
     public ParticleSystem laserParticules;
+    public Camera mainCamera;
+    public GameObject gridPlane;
 
     private enum NodeType {
         START,
@@ -56,6 +58,7 @@ public class LaserPuzzleManager : MonoBehaviour {
     
     private bool win = false;
     private LaserNode[] nodes;
+    private Transform manipulatedNode = null;
 
     void Start () {
         InitGameState();
@@ -110,16 +113,51 @@ public class LaserPuzzleManager : MonoBehaviour {
 	
 	void ListenInput()
     {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (manipulatedNode != null)
+                manipulatedNode = null;
+            else
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Transform objectHit = hit.transform;
+                    if (objectHit.IsChildOf(transform))
+                    {
+                        manipulatedNode = objectHit;
+                    }
+                }
+            }
+        }
+
+        if (manipulatedNode != null)
+        {
+            Collider nodeCollider = manipulatedNode.gameObject.GetComponent<Collider>();
+            nodeCollider.enabled = false;
+            RaycastHit planeHit;
+            if (Physics.Raycast(ray, out planeHit))
+            {
+                if (planeHit.transform.gameObject == gridPlane)
+                    manipulatedNode.transform.position = planeHit.point + Vector3.up * 0.5f;
+            }
+            nodeCollider.enabled = true;
+        }
     }
 
     void CheckWin()
     {
-        
+        if (nodes[nodes.Length - 1].activated)
+            EndGame();
     }
 
     void EndGame()
     {
+        foreach(LaserNode node in nodes)
+            foreach(LaserRay ray in node.laserRays)
+                Destroy(ray.particules);
         Destroy(gameObject);
     }
 
