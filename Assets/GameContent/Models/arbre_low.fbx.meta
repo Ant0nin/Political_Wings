@@ -1,0 +1,147 @@
+fileFormatVersion: 2
+guid: b7ed7da7749224a44bcc80aa98b143ca
+timeCreated: 1464690386
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Arm_arbrehigh
+    100004: Bone
+    100006: Bone.001
+    100008: Bone.002
+    100010: Bone.003
+    100012: Bone.004
+    100014: Bone.004_end
+    100016: Grid.002
+    400000: //RootNode
+    400002: Arm_arbrehigh
+    400004: Bone
+    400006: Bone.001
+    400008: Bone.002
+    400010: Bone.003
+    400012: Bone.004
+    400014: Bone.004_end
+    400016: Grid.002
+    4300000: Grid.002
+    7400000: Arm_arbrehigh|Arm_arbrehighAction
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Grid.002
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Arm_arbrehigh|Arm_arbrehighAction
+      takeName: Arm_arbrehigh|Arm_arbrehighAction
+      firstFrame: 0
+      lastFrame: 200
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0
+        functionName: NewEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Arm_arbrehigh
+        weight: 1
+      - path: Arm_arbrehigh/Bone
+        weight: 1
+      - path: Arm_arbrehigh/Bone/Bone.001
+        weight: 1
+      - path: Arm_arbrehigh/Bone/Bone.001/Bone.002
+        weight: 1
+      - path: Arm_arbrehigh/Bone/Bone.001/Bone.002/Bone.003
+        weight: 1
+      - path: Arm_arbrehigh/Bone/Bone.001/Bone.002/Bone.003/Bone.004
+        weight: 1
+      - path: Arm_arbrehigh/Bone/Bone.001/Bone.002/Bone.003/Bone.004/Bone.004_end
+        weight: 1
+      - path: Grid.002
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
