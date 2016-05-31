@@ -56,7 +56,7 @@ public class LaserPuzzleManager : MonoBehaviour {
         }
     }
     
-    private bool win = false;
+    //private bool win = false;
     private LaserNode[] nodes;
     private Transform manipulatedNode = null;
 

@@ -7,6 +7,7 @@ public class SceneFadeInOut : MonoBehaviour
     public float fadeSpeed = 1.5f;
     public Camera mainCamera;
     public string nextSceneName;
+    public Color fadeInOutColor = Color.white;
 
     private bool sceneStarting = true;
     private GUITexture screenTexture;
@@ -16,6 +17,7 @@ public class SceneFadeInOut : MonoBehaviour
     {
         screenTexture = GetComponent<GUITexture>();
         screenTexture.pixelInset = new Rect(0f, 0f, Screen.width, Screen.height);
+        screenTexture.color = fadeInOutColor;
     }
 
 
@@ -24,12 +26,8 @@ public class SceneFadeInOut : MonoBehaviour
         if (sceneStarting)
             StartScene();
 
-        // TODO : debug à retirer
-        if (Input.GetMouseButtonDown(0))
-            goToNextLevel = true;
         if (goToNextLevel)
-            EndScene();
-        // ----------------------
+            NextScene();
     }
 
 
@@ -39,9 +37,9 @@ public class SceneFadeInOut : MonoBehaviour
     }
 
 
-    void FadeToWhite()
+    void FadeToColor()
     {
-        screenTexture.color = Color.Lerp(screenTexture.color, Color.white, fadeSpeed * Time.deltaTime);
+        screenTexture.color = Color.Lerp(screenTexture.color, fadeInOutColor, fadeSpeed * Time.deltaTime);
     }
 
 
@@ -58,12 +56,20 @@ public class SceneFadeInOut : MonoBehaviour
     }
 
 
-    public void EndScene()
+    void NextScene()
     {
         screenTexture.enabled = true;
-        FadeToWhite();
+        FadeToColor();
 
         if (screenTexture.color.a >= 0.95f)
+        {
             SceneManager.LoadScene(nextSceneName);
+        }
+            
+    }
+
+    public void GoToNextScene()
+    {
+        goToNextLevel = true;
     }
 }

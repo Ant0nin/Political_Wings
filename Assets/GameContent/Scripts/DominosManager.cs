@@ -38,7 +38,7 @@ public class DominosManager : MonoBehaviour {
         if (win)
         {
             blockInteraction = true;
-            StartCoroutine(EndGame());
+            EndGame();
         }
     }
 
@@ -92,9 +92,10 @@ public class DominosManager : MonoBehaviour {
         return true;
     }
 
-    IEnumerator EndGame()
+    void EndGame()
     {
-        yield return new WaitForSeconds(1.0f);
-        Destroy(gameObject);
+        GameObject progressObj = GameObject.Find("PlayerProgress");
+        PlayerProgress progressComp = progressObj.GetComponent<PlayerProgress>();
+        progressComp.WinPuzzleDomino();
     }
 }
