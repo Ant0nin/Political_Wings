@@ -6,23 +6,27 @@ public class DominosManager : MonoBehaviour {
 
     public string stringSolution;
     public Camera mainCamera;
-    public float moveSpeed = 0.5F;
+    public float moveSpeed = 0.2F;
 
     private int countDominos;
     private bool[] gamestate;
     private bool[] solution;
+    private Vector3[] upDominos;
+    private bool blockInteraction = false;
 
 	void Start ()
     {
         countDominos = transform.childCount;
         gamestate = new bool[countDominos];
         solution = new bool[countDominos];
+        upDominos = new Vector3[countDominos];
 
         string[] arraySolution = stringSolution.Split(';');
         for (int i = 0; i < countDominos; i++)
         {
             gamestate[i] = false;
             solution[i] = Convert.ToInt32(arraySolution[i]) == 0 ? false : true;
+            upDominos[i] = transform.GetChild(i).transform.up;
         }
     }
 
@@ -32,12 +36,15 @@ public class DominosManager : MonoBehaviour {
         UpdateDominosTransform();
         bool win = CheckWin();
         if (win)
-            EndGame();
+        {
+            blockInteraction = true;
+            StartCoroutine(EndGame());
+        }
     }
 
     void RefreshGameState()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(!blockInteraction && Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -69,9 +76,9 @@ public class DominosManager : MonoBehaviour {
             Transform domino = transform.GetChild(i);
             bool dominoState = gamestate[i];
             if(dominoState == true)
-                domino.rotation = Quaternion.Lerp(domino.transform.rotation, Quaternion.LookRotation(Vector3.forward, Vector3.up), moveSpeed);
+                domino.rotation = Quaternion.Lerp(domino.transform.rotation, Quaternion.LookRotation(Vector3.forward, -upDominos[i]), moveSpeed);
             else
-                domino.rotation = Quaternion.Lerp(domino.transform.rotation, Quaternion.LookRotation(Vector3.forward, Vector3.down), moveSpeed);
+                domino.rotation = Quaternion.Lerp(domino.transform.rotation, Quaternion.LookRotation(Vector3.forward, upDominos[i]), moveSpeed);
         }
     }
 
@@ -85,8 +92,9 @@ public class DominosManager : MonoBehaviour {
         return true;
     }
 
-    void EndGame()
+    IEnumerator EndGame()
     {
+        yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
     }
 }
