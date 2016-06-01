@@ -47,4 +47,9 @@ public class ChangeSceneOnClick : MonoBehaviour {
             SceneManager.LoadScene(nextSceneName);
         }
     }
+
+    public void GoToNextScene()
+    {
+        goToTargetScene = true;
+    }
 }
