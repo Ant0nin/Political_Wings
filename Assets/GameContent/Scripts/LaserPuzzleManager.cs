@@ -56,7 +56,6 @@ public class LaserPuzzleManager : MonoBehaviour {
         }
     }
     
-    //private bool win = false;
     private LaserNode[] nodes;
     private Transform manipulatedNode = null;
 
@@ -127,7 +126,16 @@ public class LaserPuzzleManager : MonoBehaviour {
                     Transform objectHit = hit.transform;
                     if (objectHit.IsChildOf(transform))
                     {
-                        manipulatedNode = objectHit;
+                        LaserNode clickedNode = null;
+                        for(int i=0; i<nodes.Length; i++)
+                        {
+                            if (objectHit.gameObject == nodes[i].gameObj) {
+                                clickedNode = nodes[i];
+                                break;
+                            }
+                        }
+                        if(clickedNode!=null && clickedNode.type != NodeType.START && clickedNode.type != NodeType.END)
+                            manipulatedNode = objectHit;
                     }
                 }
             }
@@ -155,10 +163,8 @@ public class LaserPuzzleManager : MonoBehaviour {
 
     void EndGame()
     {
-        foreach(LaserNode node in nodes)
-            foreach(LaserRay ray in node.laserRays)
-                Destroy(ray.particules);
-        Destroy(gameObject);
+        PlayerProgress progressComp = GameObject.Find("PlayerProgress").GetComponent<PlayerProgress>();
+        progressComp.WinPuzzleLaser();
     }
 
     void RefreshNodesStates()
