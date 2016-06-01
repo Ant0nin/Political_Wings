@@ -40,11 +40,17 @@ public class WinboxAnimation : MonoBehaviour {
                     if (objectHit.IsChildOf(transform))
                     {
                         collected = true;
-                        // TODO : animation : la clé se rapproche
                         PlayerProgress progress = GameObject.Find("PlayerProgress").GetComponent<PlayerProgress>();
                         progress.StartCoroutine(progress.BackToMainScene());
                     }
                 }
+            }
+
+            if(collected)
+            {
+                Transform key = transform.GetChild(0);
+                key.position = Vector3.Lerp(key.position, mainCamera.transform.position, speed);
+                key.Rotate(new Vector3(0, speed, 0)*Time.deltaTime);
             }
         }
     }
