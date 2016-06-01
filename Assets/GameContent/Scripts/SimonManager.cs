@@ -180,7 +180,8 @@ public class SimonManager : MonoBehaviour {
 
     void EndGame()
     {
-        Destroy(gameObject);
+        PlayerProgress progressComp = GameObject.Find("PlayerProgress").GetComponent<PlayerProgress>();
+        progressComp.WinPuzzleSimon();
     }
 
     void ManageHoverButtons()
