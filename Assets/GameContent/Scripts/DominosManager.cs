@@ -5,7 +5,7 @@ using System;
 public class DominosManager : MonoBehaviour {
 
     public string stringSolution;
-    public Camera mainCamera;
+    public Camera cam;
     public float moveSpeed = 0.2F;
 
     private int countDominos;
@@ -47,7 +47,7 @@ public class DominosManager : MonoBehaviour {
         if(!blockInteraction && Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
                 Transform objectHit = hit.transform;
