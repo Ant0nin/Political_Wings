@@ -58,6 +58,7 @@ public class LaserPuzzleManager : MonoBehaviour {
     
     private LaserNode[] nodes;
     private Transform manipulatedNode = null;
+    private bool win = false;
 
     void Start () {
         InitGameState();
@@ -112,53 +113,61 @@ public class LaserPuzzleManager : MonoBehaviour {
 	
 	void ListenInput()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Input.GetMouseButtonDown(0))
+        if(!win)
         {
-            if (manipulatedNode != null)
-                manipulatedNode = null;
-            else
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (manipulatedNode != null)
+                    manipulatedNode = null;
+                else
                 {
-                    Transform objectHit = hit.transform;
-                    if (objectHit.IsChildOf(transform))
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        LaserNode clickedNode = null;
-                        for(int i=0; i<nodes.Length; i++)
+                        Transform objectHit = hit.transform;
+                        if (objectHit.IsChildOf(transform))
                         {
-                            if (objectHit.gameObject == nodes[i].gameObj) {
-                                clickedNode = nodes[i];
-                                break;
+                            LaserNode clickedNode = null;
+                            for (int i = 0; i < nodes.Length; i++)
+                            {
+                                if (objectHit.gameObject == nodes[i].gameObj)
+                                {
+                                    clickedNode = nodes[i];
+                                    break;
+                                }
                             }
+                            if (clickedNode != null && clickedNode.type != NodeType.START && clickedNode.type != NodeType.END)
+                                manipulatedNode = objectHit;
                         }
-                        if(clickedNode!=null && clickedNode.type != NodeType.START && clickedNode.type != NodeType.END)
-                            manipulatedNode = objectHit;
                     }
                 }
             }
-        }
 
-        if (manipulatedNode != null)
-        {
-            Collider nodeCollider = manipulatedNode.gameObject.GetComponent<Collider>();
-            nodeCollider.enabled = false;
-            RaycastHit planeHit;
-            if (Physics.Raycast(ray, out planeHit))
+            if (manipulatedNode != null)
             {
-                if (planeHit.transform.gameObject == gridPlane)
-                    manipulatedNode.transform.position = planeHit.point + Vector3.up * 0.5f;
+                Collider nodeCollider = manipulatedNode.gameObject.GetComponent<Collider>();
+                nodeCollider.enabled = false;
+                RaycastHit planeHit;
+                if (Physics.Raycast(ray, out planeHit))
+                {
+                    if (planeHit.transform.gameObject == gridPlane)
+                        manipulatedNode.transform.position = planeHit.point + Vector3.up * 0.5f;
+                }
+                nodeCollider.enabled = true;
             }
-            nodeCollider.enabled = true;
         }
+        
     }
 
     void CheckWin()
     {
         if (nodes[nodes.Length - 1].activated)
+        {
             EndGame();
+            win = true;
+        }
     }
 
     void EndGame()

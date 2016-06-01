@@ -17,28 +17,28 @@ public class PlayerProgress : MonoBehaviour {
     {
         winPuzzleDomino = true;
         TriggerWinAnimation();
-        StartCoroutine(BackToMainScene());
+        //StartCoroutine(BackToMainScene());
     }
 
     public void WinPuzzleLaser()
     {
         winPuzzleLaser = true;
         TriggerWinAnimation();
-        StartCoroutine(BackToMainScene());
+       // StartCoroutine(BackToMainScene());
     }
 
     public void WinPuzzleBoule()
     {
         winPuzzleBoule = true;
         TriggerWinAnimation();
-        StartCoroutine(BackToMainScene());
+        //StartCoroutine(BackToMainScene());
     }
 
     public void WinPuzzleSimon()
     {
         winPuzzleSimon = true;
         TriggerWinAnimation();
-        StartCoroutine(BackToMainScene());
+        //StartCoroutine(BackToMainScene());
     }
 
     void TriggerWinAnimation()
@@ -48,7 +48,7 @@ public class PlayerProgress : MonoBehaviour {
         winAnim.Trigger();
     }
 
-    IEnumerator BackToMainScene()
+    public IEnumerator BackToMainScene()
     {
         yield return new WaitForSeconds(1.4f);
         GameObject transitionGameobject = GameObject.Find("TransitionToMainScene");
