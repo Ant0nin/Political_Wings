@@ -176,7 +176,7 @@ public class LaserPuzzleManager : MonoBehaviour {
         progressComp.WinPuzzleLaser();
     }
 
-    void RefreshNodesStates()
+    void RefreshNodesStates(bool disableNecessary = true)
     {
         foreach (LaserNode node in nodes)
         {
@@ -198,33 +198,34 @@ public class LaserPuzzleManager : MonoBehaviour {
                                     // TODO : update distance
                                     n.activated = true;
                                     ray.pointedNode = n;
-                                    break; // pb ici ?
+                                    //break; // pb ici ?
                                 }
                             }
                         }
-                        else
+                        else if(disableNecessary)
                         {
                             // TODO : update distance
-                            DisableTargetedNodes(node);
+                            DisableTargetedNodes(node, 0);
                         }
                     }
-                    else
+                    else if(disableNecessary)
                     {
                         // TODO : update distance
-                        DisableTargetedNodes(node);
+                        DisableTargetedNodes(node, 0);
                     }
                         
                 }
             }
-            else
+            else if(disableNecessary)
             {
-                DisableTargetedNodes(node);
+                DisableTargetedNodes(node, 0);
             }
         }
     }
 
-    void DisableTargetedNodes(LaserNode sourceNode)
+    void DisableTargetedNodes(LaserNode sourceNode, int recur)
     {
+        recur++;
         foreach (LaserRay ray in sourceNode.laserRays)
         {
             LaserNode pointedNode = ray.pointedNode;
@@ -232,8 +233,12 @@ public class LaserPuzzleManager : MonoBehaviour {
             {
                 if(pointedNode.activated && pointedNode.type != NodeType.START)
                 {
-                    DisableTargetedNodes(pointedNode);
-                    pointedNode.activated = false;
+                    if(recur < nodes.Length) // triche contre bug stack overflow
+                    {
+                        DisableTargetedNodes(pointedNode, recur);
+                        pointedNode.activated = false;
+                        RefreshNodesStates(false);
+                    }
                 }
                 pointedNode = null;
             }
