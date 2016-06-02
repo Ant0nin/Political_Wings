@@ -209,15 +209,15 @@ public class SimonManager : MonoBehaviour {
             switch (targetButton.state)
             {
                 case ButtonState.UNSELECTED:
-                    btnMaterial.color = new Color(1f, 0f, 0f); // red
+				btnMaterial.color = new Color(0.2f, 0.2f, 0.2f); // black
                     break;
 
                 case ButtonState.SELECTED:
-                    btnMaterial.color = new Color(0f, 1f, 0f); // green
+				btnMaterial.color = new Color(1f, 1f, 1f); // green
                     break;
 
                 case ButtonState.HOVER:
-                    btnMaterial.color = new Color(0f, 0f, 1f); // blue
+				btnMaterial.color = new Color(1f, 1f, 1f); // blue
                     break;
             }
         }

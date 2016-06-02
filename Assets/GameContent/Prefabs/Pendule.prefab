@@ -94,8 +94,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.976, z: -0.000000061133}
-  m_LocalScale: {x: 0.4871803, y: 0.93991846, z: 0.4871801}
+  m_LocalPosition: {x: 0, y: 0.976, z: -0.000000091827}
+  m_LocalScale: {x: 0.1408401, y: 0.6024912, z: 0.14084005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 445260}
@@ -148,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 103820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.22, y: 10.91, z: 0}
+  m_LocalPosition: {x: 3.22, y: 2.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -292,9 +292,9 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195642}
   serializedVersion: 2
-  m_Mass: 0.3
+  m_Mass: 0.1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -308,9 +308,9 @@ HingeJoint:
   m_GameObject: {fileID: 195642}
   m_ConnectedBody: {fileID: 5458780}
   m_Anchor: {x: 0, y: 2, z: 0}
-  m_Axis: {x: 0, y: 0, z: 1}
+  m_Axis: {x: 0, y: 0, z: 2}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.16000032, z: 0}
+  m_ConnectedAnchor: {x: 0.00000047683716, y: -0.16000032, z: 0}
   m_UseSpring: 0
   m_Spring:
     spring: 0
