@@ -16,8 +16,9 @@ public class SceneFadeInOut : MonoBehaviour
     void Awake()
     {
         screenTexture = GetComponent<GUITexture>();
-        screenTexture.pixelInset = new Rect(0f, 0f, Screen.width, Screen.height);
+		screenTexture.pixelInset = new Rect(0, -Screen.height, Screen.width, Screen.height);
         screenTexture.color = fadeInOutColor;
+
     }
 
 

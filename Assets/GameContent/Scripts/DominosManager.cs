@@ -94,6 +94,7 @@ public class DominosManager : MonoBehaviour {
 
     void EndGame()
     {
+		
         GameObject progressObj = GameObject.Find("PlayerProgress");
         PlayerProgress progressComp = progressObj.GetComponent<PlayerProgress>();
         progressComp.WinPuzzleDomino();
