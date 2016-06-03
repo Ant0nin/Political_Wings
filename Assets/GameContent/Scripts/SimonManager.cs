@@ -39,10 +39,15 @@ public class SimonManager : MonoBehaviour {
     private bool blockInteraction = true;
 
 	void Start () {
+        StartCoroutine(Init(offsetStartTime));
+	}
 
+    IEnumerator Init(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         InitSequences();
         InitButtons();
-	}
+    }
 
     void InitButtons()
     {
@@ -53,7 +58,7 @@ public class SimonManager : MonoBehaviour {
             buttons[i] = new SimonButton(transform.GetChild(i).gameObject);
         }
         ResetButtons();
-        StartCoroutine(SequenceDemo());
+        SequenceDemo();
     }
 
     void InitSequences()
@@ -87,7 +92,7 @@ public class SimonManager : MonoBehaviour {
             {
                 if (playerSelection[i] != listSequences[currentSequence][i])
                 {
-                    StartCoroutine(SequenceDemo());
+                    SequenceDemo();
                     return false;
                 }
             }
@@ -96,9 +101,8 @@ public class SimonManager : MonoBehaviour {
         return false;
     }
 
-    IEnumerator SequenceDemo()
+    void SequenceDemo()
     {
-        yield return new WaitForSeconds(offsetStartTime);
         blockInteraction = true;
         ResetButtons();
         StartCoroutine(playButton(0));
