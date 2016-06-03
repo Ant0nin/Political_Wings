@@ -8,11 +8,6 @@ public class PlayerProgress : MonoBehaviour {
     public bool winPuzzleBoule = false;
     public bool winPuzzleSimon = false;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(transform.gameObject); // persistant
-    }
-
     public void WinPuzzleDomino()
     {
         winPuzzleDomino = true;
