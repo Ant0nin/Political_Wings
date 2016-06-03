@@ -9,6 +9,7 @@ public class SimonManager : MonoBehaviour {
     public int hoverDuration = 1;
     public Camera mainCamera;
     public float demoSpeed = 0.5f;
+    public float offsetStartTime = 2f;
 
     private enum ButtonState {
         UNSELECTED,
@@ -52,7 +53,7 @@ public class SimonManager : MonoBehaviour {
             buttons[i] = new SimonButton(transform.GetChild(i).gameObject);
         }
         ResetButtons();
-        SequenceDemo();
+        StartCoroutine(SequenceDemo());
     }
 
     void InitSequences()
@@ -86,7 +87,7 @@ public class SimonManager : MonoBehaviour {
             {
                 if (playerSelection[i] != listSequences[currentSequence][i])
                 {
-                    SequenceDemo();
+                    StartCoroutine(SequenceDemo());
                     return false;
                 }
             }
@@ -95,8 +96,9 @@ public class SimonManager : MonoBehaviour {
         return false;
     }
 
-    void SequenceDemo()
+    IEnumerator SequenceDemo()
     {
+        yield return new WaitForSeconds(offsetStartTime);
         blockInteraction = true;
         ResetButtons();
         StartCoroutine(playButton(0));
