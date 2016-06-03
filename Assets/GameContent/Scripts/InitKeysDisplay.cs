@@ -30,6 +30,8 @@ public class InitKeysDisplay : MonoBehaviour {
 
     void OpenCoffre()
     {
-        // TODO
+        GameObject porteCoffre = GameObject.Find("DoorCoffre");
+        TransformOnClick script = porteCoffre.GetComponent<TransformOnClick>();
+        script.enabled = true;
     }
 }
