@@ -3,14 +3,12 @@ using System.Collections;
 
 public class WinBallPuzzleOnCollision : MonoBehaviour {
 
-    public string targetTag = "Ball";
+	public string tagTarget = "Ball";
 
 	void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag.Equals(targetTag))
-        {
+		
             PlayerProgress progressComp = GameObject.Find("PlayerProgress").GetComponent<PlayerProgress>();
             progressComp.WinPuzzleBoule();
-        }
     }
 }

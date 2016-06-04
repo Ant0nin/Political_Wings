@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PlayMaker;
+using HutongGames.PlayMaker;
 
 public class PlayerProgress : MonoBehaviour {
+
+	public GameObject tableauSimon;
+	public GameObject tableauDominos;
 
     public bool winPuzzleDomino = false;
     public bool winPuzzleLaser = false;
@@ -33,6 +38,7 @@ public class PlayerProgress : MonoBehaviour {
     {
         winPuzzleSimon = true;
         TriggerWinAnimation();
+
         //StartCoroutine(BackToMainScene());
     }
 

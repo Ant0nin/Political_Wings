@@ -252,7 +252,7 @@ public class LaserPuzzleManager : MonoBehaviour {
             Material nodeMaterial = node.gameObj.GetComponent<Renderer>().material;
             if (node.activated)
             {
-                nodeMaterial.color = new Color(0f, 1f, 0f);
+                nodeMaterial.color = new Color(1f, 1f, 1f);
                 foreach(LaserRay ray in node.laserRays)
                 {
                     ray.UpdatePosition();
@@ -263,7 +263,7 @@ public class LaserPuzzleManager : MonoBehaviour {
             }
             else
             {
-                nodeMaterial.color = new Color(1f, 0f, 0f);
+                nodeMaterial.color = new Color(0.5f, 0.5f, 0.5f);
                 foreach (LaserRay ray in node.laserRays)
                 {
                     ray.UpdatePosition();

@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class InitKeysDisplay : MonoBehaviour {
+
+	public GameObject tabloDomino;
+	public GameObject tabloBoules;
+	public GameObject tabloLaser;
+	public GameObject tabloSimon;
+
+	public GameObject endScenario;
 
 	void Start () {
 
@@ -14,15 +22,23 @@ public class InitKeysDisplay : MonoBehaviour {
 
         if (!progressComp.winPuzzleDomino)
             keyPuzzleDomino.SetActive(false);
-
+		else
+			Destroy(tabloDomino);
+		
         if (!progressComp.winPuzzleBoule)
             keyPuzzleBoule.SetActive(false);
+		else
+			Destroy(tabloBoules);
 
         if (!progressComp.winPuzzleLaser)
             keyPuzzleLaser.SetActive(false);
+		else
+			Destroy(tabloLaser);
 
         if (!progressComp.winPuzzleSimon)
             keyPuzzleSimon.SetActive(false);
+		else
+			Destroy(tabloSimon);
 
         if (progressComp.winPuzzleDomino && progressComp.winPuzzleBoule && progressComp.winPuzzleLaser && progressComp.winPuzzleSimon)
             OpenCoffre();
@@ -30,8 +46,10 @@ public class InitKeysDisplay : MonoBehaviour {
 
     void OpenCoffre()
     {
-        GameObject porteCoffre = GameObject.Find("DoorCoffre");
-        TransformOnClick script = porteCoffre.GetComponent<TransformOnClick>();
-        script.enabled = true;
+		SceneManager.LoadScene("final_scene");
+        //GameObject porteCoffre = GameObject.Find("DoorCoffre");
+        //TransformOnClick script = porteCoffre.GetComponent<TransformOnClick>();
+        //script.enabled = true;
+		endScenario.SetActive(true);
     }
 }

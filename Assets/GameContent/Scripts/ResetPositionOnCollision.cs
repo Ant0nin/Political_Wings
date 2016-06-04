@@ -8,11 +8,10 @@ public class ResetPositionOnCollision : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag.Equals(tagTarget))
-        {
+		
             other.transform.position = other.gameObject.GetComponent<StartPositionKeeper>().startPosition.transform.position;
             if (resetVelocityOnTeleport)
                 other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        }
+        
     }
 }

@@ -141,7 +141,7 @@ public class SimonManager : MonoBehaviour {
             if (i < countEnabledButtons)
                 btn.gameObj.SetActive(true);
             else
-                btn.gameObj.SetActive(false);
+				btn.gameObj.SetActive(true);
         }
             
     }
